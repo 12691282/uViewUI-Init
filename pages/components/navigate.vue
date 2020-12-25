@@ -42,16 +42,16 @@
 							iconPath: "account", 
 							selectedIconPath: "account-fill",
 							text: '我的',
-							path: '/pages/home/index',
-							isDot: false,
+							path: '/pages/main/index',
+							isDot: true,
 							customIcon: false,
-						},
+						}
 					],
-					current: 0
+				current: 0
 			}
 		},
 		onLoad() {
-	
+		 
 		},
 		methods: {
 			async beforeSwitch(index) {
