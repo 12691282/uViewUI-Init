@@ -1,7 +1,8 @@
 <template>
 	<view class="wrap">
-		<home ref="homeRef" v-if="mainStyle == 'home'"></home>
-		<mypage ref="mypageRef" v-if="mainStyle == 'mypage'"></mypage>
+		<home  v-if="mainStyle == 'home'"></home>
+		<messages  v-if="mainStyle == 'messages'"></messages>
+		<mypage  v-if="mainStyle == 'mypage'"></mypage>
 		<!-- 与包裹页面所有内容的元素u-page同级，且在它的下方 -->
 		<u-tabbar v-model="current" :list="tablist" :border-top="false" :before-switch="beforeSwitch" >
 		</u-tabbar>
@@ -10,11 +11,12 @@
 
 <script>
 	import home from '../home/index.vue'
+	import messages from '../messages/index.vue'
 	import mypage from '../mypage/index.vue'
 	
  	export default {
 		components: {
-			home, mypage
+			home, mypage,messages
 		},
 		data() {
 			return {
@@ -22,24 +24,16 @@
 				tablist: [{
 								iconPath: "home",
 								selectedIconPath: "home-fill",
-								text: '测试主页',
+								text: '相亲圈',
 								path: 'home',
 								isDot: true,
 								customIcon: false,
 							},
 							{
-								iconPath: "photo",
-								selectedIconPath: "photo-fill",
-								text: '放映厅',
-								path: 'home',
-								isDot: true,
-								customIcon: false,
-							},
-							{
-								iconPath: "play-right",
-								selectedIconPath: "play-right-fill",
-								text: '直播',
-								path: 'mypage',
+								iconPath: "volume-up",
+								selectedIconPath: "volume-up-fill",
+								text: '消息',
+								path: 'messages',
 								isDot: true,
 								customIcon: false,
 							},
