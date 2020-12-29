@@ -6,11 +6,23 @@
 			</u-col>
 			<u-col span="7">
 				<view class="userinfo">
-					<block>
 						<!--u-skeleton-circle 绘制圆形-->
-						<image class="userinfo-avatar u-skeleton-circle" :src="userInfo.avatarUrl"></image>
-					</block>
+						<view v-if="!showUpload">
+							<image class="userinfo-avatar" :src="userInfo.avatarUrl" @tap="preAvatar"  mode="aspectFill"></image>
+							<view class="u-delete-icon" @tap.stop="deleteAvatar()">
+								<u-icon name="close" size="20" color="#ffffff"></u-icon>
+							</view>
+							
+						</view>
+						
+						 <u-upload v-if="showUpload" ref="uUpload" :show-upload-list="false" :showProgress="false"
+						 :action="actionUrl" :auto-upload="true" :file-list="fileList" :show-progress="false" :deletable="true" max-count="1" 
+						 @on-change="onAvatarChange">
+						</u-upload>
+						
 				</view>
+				
+				
 			</u-col>
 		</u-row>
 		<u-row class="line-marge" gutter="16" justify="space-between">
@@ -40,7 +52,9 @@
 			 <u-col span="7">
 			 	<view class="userinfo">
 			 		<block>
-						<u-input type="select" class="input-marge" :select-open="sexSheetShow" placeholder="请选择性别" v-model="userInfo.sex" @click="sexSheetShow = true"></u-input>
+						<u-input type="select" class="input-marge" :select-open="sexSheetShow" 
+							placeholder="请选择性别" v-model="userInfo.sex" @click="sexSheetShow = true">
+						</u-input>
 			 		</block>
 			 	</view>
 			 </u-col>
@@ -114,8 +128,11 @@
 	export default {
 		data() {
 			return {
+				actionUrl: 'http://127.0.0.1:7001/upload',
+				showUpload: false,
+				fileList:[],
 				userInfo: {
-					avatarUrl: 'https://qlogo2.store.qq.com/qzone/1416956117/1416956117/100?1531323520',
+					avatarUrl:'https://ss1.bdstatic.com/70cFuXSh_Q1YnxGkpoWK1HF6hhy/it/u=1320602804,99817053&fm=26&gp=0.jpg',
 					nickName: '张三',
 					sex: '',
 					phoneNumber: '',
@@ -145,18 +162,34 @@
 			console.log(this.maxBirthdayDate)
 		},
 		methods: {
-		  sexSheetCallback(index){
+		    sexSheetCallback(index){
 			  uni.hideKeyboard();
 			  this.userInfo.sex =  this.sexlist[index].text;
-		  },
-		  changeBirthday(){
+		   },
+		    changeBirthday(){
 			  this.birthdateCalendar = true
-		  },
-		  changeDate(e){
+		    },
+		    changeDate(e){
 			   this.userInfo.birthday = e.year;
 		       this.userInfo.birthday += '-' + e.month;
 			   this.userInfo.birthday += '-' + e.day;
 			   this.birthdateCalendar = this.userInfo.birthday
+		    },
+		  // 预览图片
+		  preAvatar() {
+		  	wx.previewImage({
+		  		current: '', // 当前显示图片的 http 链接
+		  		urls: [this.userInfo.avatarUrl] // 需要预览的图片 http 链接列表
+		  	})
+		  },
+		  deleteAvatar(){
+			  this.showUploadList = true;
+			  this.userInfo.avatarUrl = ''
+		  },
+		  onAvatarChange(){
+			  console.log(122)
+			  this.showUploadList = false;
+			  this.userInfo.avatarUrl = 'https://ss1.bdstatic.com/70cFuXSh_Q1YnxGkpoWK1HF6hhy/it/u=1320602804,99817053&fm=26&gp=0.jpg'
 		  }
 		}
 	}
@@ -189,5 +222,19 @@
 			height: 128rpx;
 			margin: 20rpx;
 			border-radius: 50%;
+		}
+		//小红标定位
+		.u-delete-icon {
+			position: absolute;
+			top: 10rpx;
+			right: 40rpx;
+			z-index: 10;
+			background-color: $u-type-error;
+			border-radius: 100rpx;
+			width: 44rpx;
+			height: 44rpx;
+			display: flex;
+			align-items: center;
+			justify-content: center;
 		}
 </style>
