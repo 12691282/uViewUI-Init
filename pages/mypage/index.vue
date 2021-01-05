@@ -12,17 +12,13 @@
 							<view class="u-delete-icon" @tap.stop="deleteAvatar()">
 								<u-icon name="close" size="20" color="#ffffff"></u-icon>
 							</view>
-							
 						</view>
-						
 						 <u-upload v-if="showUpload" ref="uUpload" :show-upload-list="false" :showProgress="false"
-						 :action="actionUrl" :auto-upload="true" :file-list="fileList" :show-progress="false" :deletable="true" max-count="1" 
+						 :action="actionUrl" :auto-upload="true" :file-list="fileList" :show-progress="false" max-count="1" 
 						 @on-change="onAvatarChange">
 						</u-upload>
 						
 				</view>
-				
-				
 			</u-col>
 		</u-row>
 		<u-row class="line-marge" gutter="16" justify="space-between">
@@ -121,6 +117,29 @@
 			:end-year="maxBirthdayDate"
 			@confirm="changeDate"
 		></u-picker>
+		
+		
+		<u-row class="line-marge" gutter="16" justify="space-between">
+			<u-line color="black" border-style="solid"/>
+		</u-row>
+		
+		<u-row gutter="16" justify="space-between">
+			 <u-col span="5">
+			 	<span class="head-marge">生活照片</span>
+			 </u-col>
+			 <u-col span="7" style="padding: 0px 0px;">
+				<u-upload @on-remove="deleteLifePhoto" @on-choose-fail="onChooseFail" ref="uUpload" :show-upload-list="lifePhotoListShow" :action="actionUrl"  
+				  :auto-upload="false" :file-list="uploadPhotoList" :show-progress="false" :max-count="6" >
+				</u-upload>
+				<u-button style="margin-right: 10px;" :custom-style="{marginTop: '20rpx'}" @click="uploadLifePhoto">上传</u-button>
+			 </u-col>
+		</u-row>
+	
+		
+		<u-row class="line-marge" gutter="16" justify="space-between">
+			<u-line color="black" border-style="solid"/>
+		</u-row>
+		
 	</view>
 </template>
 
@@ -154,7 +173,13 @@
 					second: false
 				}, 
 				birthdateCalendar: false,
-				maxBirthdayDate : new Date().getFullYear()
+				maxBirthdayDate : new Date().getFullYear(),
+				lifePhotoListShow: true,
+				uploadPhotoList: [
+					{"url": 'https://ss1.bdstatic.com/70cFuXSh_Q1YnxGkpoWK1HF6hhy/it/u=1320602804,99817053&fm=26&gp=0.jpg' }
+				]
+				
+				
 					
 			}
 		},
@@ -182,14 +207,22 @@
 		  		urls: [this.userInfo.avatarUrl] // 需要预览的图片 http 链接列表
 		  	})
 		  },
+		  //删除个人头像
 		  deleteAvatar(){
-			  this.showUploadList = true;
+			  this.showUpload = true;
 			  this.userInfo.avatarUrl = ''
 		  },
 		  onAvatarChange(){
-			  console.log(122)
-			  this.showUploadList = false;
+			  this.showUpload = false;
 			  this.userInfo.avatarUrl = 'https://ss1.bdstatic.com/70cFuXSh_Q1YnxGkpoWK1HF6hhy/it/u=1320602804,99817053&fm=26&gp=0.jpg'
+		  },
+		  deleteLifePhoto(index){
+			  console.log('deleteLifePhoto')
+		  },
+		  uploadLifePhoto() {
+			//上传照片list
+			console.log(this.$refs.uUpload.lists)
+		  	this.$refs.uUpload.upload();
 		  }
 		}
 	}
@@ -236,5 +269,21 @@
 			display: flex;
 			align-items: center;
 			justify-content: center;
+		}
+		
+		.pre-box {
+			display: flex;
+			align-items: center;
+			justify-content: space-between;
+			flex-wrap: wrap;
+		}
+		
+		.pre-item {
+			flex: 0 0 48.5%;
+			border-radius: 10rpx;
+			height: 140rpx;
+			overflow: hidden;
+			position: relative;
+			margin-bottom: 20rpx;
 		}
 </style>
