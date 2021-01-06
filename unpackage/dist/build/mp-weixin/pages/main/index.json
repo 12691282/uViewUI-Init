@@ -1,0 +1,9 @@
+{
+  "navigationBarTitleText": "测试页面",
+  "usingComponents": {
+    "u-tabbar": "/uview-ui/components/u-tabbar/u-tabbar",
+    "home": "/pages/home/index",
+    "mypage": "/pages/mypage/index",
+    "messages": "/pages/messages/index"
+  }
+}

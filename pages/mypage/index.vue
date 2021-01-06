@@ -13,8 +13,8 @@
 								<u-icon name="close" size="20" color="#ffffff"></u-icon>
 							</view>
 						</view>
-						 <u-upload v-if="showUpload" ref="uUpload" :show-upload-list="false" :showProgress="false"
-						 :action="actionUrl" :auto-upload="true" :file-list="fileList" :show-progress="false" max-count="1" 
+						 <u-upload v-if="showUpload" :show-upload-list="false" :showProgress="false"
+						 :action="avatarActionUrl" :auto-upload="true" :file-list="fileList" :show-progress="false" max-count="1" 
 						 @on-change="onAvatarChange">
 						</u-upload>
 						
@@ -54,8 +54,10 @@
 			 		</block>
 			 	</view>
 			 </u-col>
+			 
+			<u-action-sheet :list="sexlist" v-model="sexSheetShow" @click="sexSheetCallback"></u-action-sheet>
+			 
 		</u-row>
-		
 		
 		<u-row class="line-marge" gutter="16" justify="space-between">
 			<u-line color="black" border-style="solid"/>
@@ -104,20 +106,13 @@
 			 		<block>
 			 			<!--u-skeleton-fillet 绘制圆角矩形-->
 						<u-input class="input-marge" placeholder="请输入出生年月"   v-model="userInfo.birthday" @click="changeBirthday" disabled/>
+						
+						<u-calendar v-model="birthdateCalendar" :max-date="maxBirthdayDate" @change="changeDate"></u-calendar>
+						
 			 		</block>
 			 	</view>
 			 </u-col>
 		</u-row>
-		<u-action-sheet :list="sexlist" v-model="sexSheetShow" @click="sexSheetCallback"></u-action-sheet>
-		<u-picker
-			mode="time"
-			:defaultTime="userInfo.birthday"
-			v-model="birthdateCalendar"
-			:params="birthdateParams"
-			:end-year="maxBirthdayDate"
-			@confirm="changeDate"
-		></u-picker>
-		
 		
 		<u-row class="line-marge" gutter="16" justify="space-between">
 			<u-line color="black" border-style="solid"/>
@@ -128,7 +123,7 @@
 			 	<span class="head-marge">生活照片</span>
 			 </u-col>
 			 <u-col span="7" style="padding: 0px 0px;">
-				<u-upload @on-remove="deleteLifePhoto" @on-choose-fail="onChooseFail" ref="uUpload" :show-upload-list="lifePhotoListShow" :action="actionUrl"  
+				<u-upload @on-remove="deleteLifePhoto" @on-choose-fail="onChooseFail" ref="uUpload" :show-upload-list="lifePhotoListShow" :action="lifePhotoActionUrl"  
 				  :auto-upload="false" :file-list="uploadPhotoList" :show-progress="false" :max-count="6" >
 				</u-upload>
 				<u-button style="margin-right: 10px;" :custom-style="{marginTop: '20rpx'}" @click="uploadLifePhoto">上传</u-button>
@@ -147,7 +142,8 @@
 	export default {
 		data() {
 			return {
-				actionUrl: 'http://127.0.0.1:7001/upload',
+				avatarActionUrl: 'http://127.0.0.1:7001/upload',
+				lifePhotoActionUrl: 'http://127.0.0.1:7001/uploadLifePhoto',
 				showUpload: false,
 				fileList:[],
 				userInfo: {
@@ -164,16 +160,8 @@
 						 {
 							text: '女'
 						 }],
-				birthdateParams: {
-					year: true,
-					month: true,
-					day: true,
-					hour: false,
-					minute: false,
-					second: false
-				}, 
 				birthdateCalendar: false,
-				maxBirthdayDate : new Date().getFullYear(),
+				maxBirthdayDate : '',
 				lifePhotoListShow: true,
 				uploadPhotoList: [
 					{"url": 'https://ss1.bdstatic.com/70cFuXSh_Q1YnxGkpoWK1HF6hhy/it/u=1320602804,99817053&fm=26&gp=0.jpg' }
@@ -184,6 +172,12 @@
 			}
 		},
 		mounted() {
+			//设置可选时间
+			let today = new Date()
+			let year = today.getFullYear()+20 
+			let month = today.getMonth()+1
+			let date = today.getDate()
+			this.maxBirthdayDate =  year +'-'+ month +'-'+date
 			console.log(this.maxBirthdayDate)
 		},
 		methods: {
@@ -195,10 +189,8 @@
 			  this.birthdateCalendar = true
 		    },
 		    changeDate(e){
-			   this.userInfo.birthday = e.year;
-		       this.userInfo.birthday += '-' + e.month;
-			   this.userInfo.birthday += '-' + e.day;
-			   this.birthdateCalendar = this.userInfo.birthday
+			   console.log(e)
+			   this.userInfo.birthday =  e.year + '年'+ e.month + '月' + e.day + '日' 
 		    },
 		  // 预览图片
 		  preAvatar() {
@@ -221,7 +213,7 @@
 		  },
 		  uploadLifePhoto() {
 			//上传照片list
-			console.log(this.$refs.uUpload.lists)
+			//console.log(this.$refs.uUpload.lists)
 		  	this.$refs.uUpload.upload();
 		  }
 		}
