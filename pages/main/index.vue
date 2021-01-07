@@ -20,11 +20,11 @@
 		},
 		data() {
 			return {
-				mainStyle: 'home',
+				mainStyle: 'mypage',
 				tablist: [{
 								iconPath: "home",
 								selectedIconPath: "home-fill",
-								text: '相亲圈',
+								text: '朋友圈',
 								path: 'home',
 								isDot: true,
 								customIcon: false,
@@ -46,7 +46,7 @@
 								customIcon: false,
 							}
 						],
-				current: 0
+				current: 2
 			}
 		},
 		onLoad() {
