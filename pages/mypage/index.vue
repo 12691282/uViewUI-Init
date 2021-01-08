@@ -116,7 +116,7 @@
 				 	<span class="head-marge">生活照片</span>
 				 </u-col>
 				 <u-col span="8" style="padding: 0px 0px;">
-					<u-upload @on-remove="deleteLifePhoto" @on-choose-fail="onChooseFail" ref="uUpload" :show-upload-list="lifePhotoListShow" :action="lifePhotoActionUrl"  
+					<u-upload @on-list-change="deleteLifePhoto" ref="uUpload" :show-upload-list="lifePhotoListShow" :action="lifePhotoActionUrl"  
 					  :auto-upload="false" :file-list="uploadPhotoList" :show-progress="false" :max-count="6" >
 					</u-upload>
 					<u-button v-if="isShowUploadButton"  type="success" size="medium" :custom-style="{marginTop: '20rpx',marginLeft:'220rpx'}" @click="uploadLifePhoto">上传</u-button>
@@ -127,18 +127,21 @@
 			<u-button type="primary" size="medium" :custom-style="{marginLeft: '20rpx',marginBottom:'40rpx'}" @click="updateUserInfo()">更新</u-button>
 			
 		</view>
-		<view v-if="!userlogin">
-			<u-row gutter="16">
-				<u-col span="10" style="padding: 0px 0px;">
-						<view >
-							<u-top-tips ref="uTips"></u-top-tips>
-							<u-button type="primary" size="medium" open-type="getUserInfo" @getuserinfo="checkUserInfo"
-							:custom-style="{marginLeft: '270rpx',marginTop: '20rpx'}"  >登陆</u-button>
-						</view>
-				</u-col>
-				
-			</u-row>
-		</view>
+			<view class="head">
+				<view  v-if="!userlogin">
+					<u-row gutter="16">
+						<u-col span="10" style="padding: 0px 0px;">
+								<view >
+									<u-top-tips ref="uTips"></u-top-tips>
+									<u-button type="error" shape="circle"  open-type="getUserInfo" @getuserinfo="checkUserInfo"
+									:custom-style="{marginLeft: '150rpx'}"  plain>登陆</u-button>
+									
+								</view>
+						</u-col>
+						
+					</u-row>
+				</view>
+		   </view>
 	</view>
 </template>
 
@@ -167,32 +170,34 @@
 				birthdateCalendar: false,
 				maxBirthdayDate : '',
 				lifePhotoListShow: true,
-				uploadPhotoList: [
-					{"url": 'https://ss1.bdstatic.com/70cFuXSh_Q1YnxGkpoWK1HF6hhy/it/u=1320602804,99817053&fm=26&gp=0.jpg' }
-				],
+				uploadPhotoList: [],
 				photoListLength: 0,
 				canIUse: wx.canIUse('button.open-type.getUserInfo'),
 				userlogin:false,
 				hasUserInfo: false,
 			}
 		},
+		onShow() {
+			if (uni.getStorageSync("hasLogin")) {
+				this.getUserInfo();
+				this.hasLogin = true;
+			}
+		},
 		mounted() {
 			//设置可选时间
 			if(this.globalData.userInfo != null){
-				this.setLoginUserInfo()
 				this.userlogin = true
+				this.setLoginUserInfo()
 				let today = new Date()
 				let year = today.getFullYear()+20 
 				let month = today.getMonth()+1
 				let date = today.getDate()
 				this.maxBirthdayDate =  year +'-'+ month +'-'+date
-				// this.photoListLength =  this.$refs.uUpload.lists.length
-				
+				this.uploadPhotoList.push(
+						{"url": 'https://ss1.bdstatic.com/70cFuXSh_Q1YnxGkpoWK1HF6hhy/it/u=1320602804,99817053&fm=26&gp=0.jpg' }
+				)
+				this.photoListLength =  this.uploadPhotoList.length
 			}
-			
-			console.log(wx.canIUse('button.open-type.getUserInfo'))
-			
-			
 		},
 		computed:{
 			isShowUploadButton(){
@@ -202,9 +207,6 @@
 					return false;
 				}
 			}
-		},
-		userInfo: function(e){
-			console.log(e)
 		},
 		methods: {
 		    sexSheetCallback(index){
@@ -290,61 +292,6 @@
 	
 </script>
 
-<style lang="scss" scoped>
-		.userinfo {
-			display: flex;
-			flex-direction: column;
-			align-items: center;
-			margin-left: 50px;
-			
-		}
-		.head-marge{
-			margin-left: 10px;
-		}
-		.input-marge{
-			margin-left: 50px;
-		}
-		.line-marge{
-			margin-top: 10px;
-			margin-bottom: 10px;
-			margin-left: 10px;
-			margin-right: 10px;
-		}
-		
-		.userinfo-avatar {
-			width: 128rpx;
-			height: 128rpx;
-			margin: 20rpx;
-			border-radius: 50%;
-		}
-		//小红标定位
-		.u-delete-icon {
-			position: absolute;
-			top: 10rpx;
-			right: 40rpx;
-			z-index: 10;
-			background-color: $u-type-error;
-			border-radius: 100rpx;
-			width: 44rpx;
-			height: 44rpx;
-			display: flex;
-			align-items: center;
-			justify-content: center;
-		}
-		
-		.pre-box {
-			display: flex;
-			align-items: center;
-			justify-content: space-between;
-			flex-wrap: wrap;
-		}
-		
-		.pre-item {
-			flex: 0 0 48.5%;
-			border-radius: 10rpx;
-			height: 140rpx;
-			overflow: hidden;
-			position: relative;
-			margin-bottom: 20rpx;
-		}
+<style lang="scss">
+	@import  "mypage.css"
 </style>
