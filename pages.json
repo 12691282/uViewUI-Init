@@ -8,6 +8,12 @@
 			"style": {
 				"navigationBarTitleText": "测试页面"
 			}
+		},
+		{
+			"path": "pages/mypage/my-info",
+			"style": {
+				"navigationBarTitleText": "我的信息"
+			}
 		}
 	],
 	// "tabBar": {
@@ -17,28 +23,22 @@
 	// 		"backgroundColor":"#ffffff",
 	// 		"list": [
 	// 			{
-	// 				"pagePath":"pages/main/index",
-	// 				"text":"首页",
-	// 				"iconPath":"account",
-	// 				"selectedIconPath":"account-fill"
+	// 				"iconPath": "static/icon/m_2.png",
+	// 				"selectedIconPath": "static/icon/m_1.png",
+	// 				"text": "朋友圈",
+	// 				"pagePath": "pages/home/index"
 	// 			},
 	// 			{
-	// 				"pagePath":"pages/main/index",
-	// 				"text":"排行榜",
-	// 				"iconPath":"static/paihangbang_normal.png",
-	// 				"selectedIconPath":"static/paihangbang.png"
+	// 				"iconPath": "static/icon/m_2.png",
+	// 				"selectedIconPath": "static/icon/m_1.png",
+	// 				"text": "朋友圈",
+	// 				"pagePath": "pages/home/index"
 	// 			},
 	// 			{
-	// 				"pagePath":"pages/main/index",
-	// 				"text":"咚咚抢",
-	// 				"iconPath":"static/alert_normal.png",
-	// 				"selectedIconPath":"static/alert.png"
-	// 			},
-	// 			{
-	// 				"pagePath":"pages/home/index",
-	// 				"text":"我的",
-	// 				"iconPath":"static/tab_home.png",
-	// 				"selectedIconPath":"static/tab_home_s.png"
+	// 				"iconPath": "static/icon/m_2.png",
+	// 				"selectedIconPath": "static/icon/m_1.png",
+	// 				"text": "朋友圈",
+	// 				"pagePath": "pages/home/index"
 	// 			}
 	// 		]	
 	// },

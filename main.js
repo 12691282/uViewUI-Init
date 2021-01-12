@@ -7,7 +7,7 @@ Vue.use(uView);
 
 
 Vue.config.productionTip = false
-Vue.prototype.globalData = { userInfo: null }
+Vue.prototype.globalData = { userInfo: null, userlogin: false }
 App.mpType = 'app'
 
 const app = new Vue({

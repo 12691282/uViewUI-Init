@@ -20,7 +20,7 @@
 		},
 		data() {
 			return {
-				mainStyle: 'mypage',
+				mainStyle: 'home',
 				tablist: [{
 								iconPath: "home",
 								selectedIconPath: "home-fill",
@@ -46,7 +46,7 @@
 								customIcon: false,
 							}
 						],
-				current: 2
+				current: 0
 			}
 		},
 		onLoad() {
