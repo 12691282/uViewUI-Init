@@ -14,7 +14,7 @@
 			}
 		},
 		mounted() {
-			console.log('mypage mounted')
+			console.log('message mounted')
 		},
 		methods: {
 		 

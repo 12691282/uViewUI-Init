@@ -14,6 +14,18 @@
 			"style": {
 				"navigationBarTitleText": "我的信息"
 			}
+		},
+		{
+			"path": "pages/activities/index",
+			"style": {
+				"navigationBarTitleText": "活动介绍"
+			}
+		},
+		{
+			"path": "pages/recommendDetail/index",
+			"style": {
+				"navigationBarTitleText": "个人详情"
+			}
 		}
 	],
 	// "tabBar": {

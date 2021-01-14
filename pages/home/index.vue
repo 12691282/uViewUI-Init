@@ -4,12 +4,14 @@
 			<u-swiper :list="swiperList" :effect3d="true" :title="true" @click="clickSwiper" ></u-swiper>
 			<u-line color="green" margin="20rpx" border-style="dashed"/>
 		</view>
-		
+		<view class="daily-title-class">
+			每日推荐
+		</view>
 		<u-waterfall v-model="flowList" ref="uWaterfall">
 			<u-back-top :scroll-top="scrollTop"></u-back-top>
 			<template v-slot:left="{ leftList }">
 				
-				<view class="water-item-class" v-for="(item, index) in leftList" :key="index">
+				<view class="water-item-class" v-for="(item, index) in leftList" :key="index" @click="selectRecommendDetail(item)">
 					<!-- 微信小程序需要hx2.8.11版本才支持在template中引入其他组件，比如下方的u-lazy-load组件 -->
 					<u-lazy-load threshold="-450" border-radius="10" :image="item.image" :index="index"></u-lazy-load>
 					<view class="demo-title">{{ item.title }}</view>
@@ -20,13 +22,10 @@
 						<view class="demo-tag-owner">成熟</view>
 						<view class="demo-tag-text">细心</view>
 					</view>
-					<view class="u-close">
-						<u-icon name="close-circle-fill" color="#fa3534" size="34" @click="remove(item.id)"></u-icon>
-					</view>
 				</view>
 			</template>
 			<template v-slot:right="{ rightList }">
-				<view class="water-item-class" v-for="(item, index) in rightList" :key="index">
+				<view class="water-item-class" v-for="(item, index) in rightList" :key="index" @click="selectRecommendDetail(item)">
 					<u-lazy-load threshold="-450" border-radius="10" :image="item.image" :index="index"></u-lazy-load>
 					<view class="demo-title">{{ item.title }}</view>
 					<view>
@@ -36,14 +35,9 @@
 						<view class="demo-tag-owner">自信</view>
 						<view class="demo-tag-text">坦诚</view>
 					</view>
-					
-					<view class="u-close">
-						<u-icon name="close-circle-fill" color="#fa3534" size="34" @click="remove(item.id)"></u-icon>
-					</view>
 				</view>
 			</template>
 		</u-waterfall>
-		<u-loadmore :margin-top="20" :margin-bottom="20" bg-color="rgb(240, 240, 240)" :status="loadStatus" @loadmore="addRandomData"></u-loadmore>
 	</view>
 	
 </template>
@@ -52,19 +46,23 @@
 	export default {
 		data() {
 			return {
+				loadData: false,
 				scrollTop: 0,
 				swiperList : [{
-						path: '/pages/mypage/my-info',
+						path: '/pages/activities/index',
+						id:'1',
 						image: 'https://cdn.uviewui.com/uview/swiper/1.jpg',
 						title: '昨夜星辰昨夜风，画楼西畔桂堂东'
 					  },
 					  {
-						path: '/pages/mypage/my-info',
+						path: '/pages/activities/index',
+						id:'2',
 						image: 'https://cdn.uviewui.com/uview/swiper/2.jpg',
 						title: '身无彩凤双飞翼，心有灵犀一点通'
 					  },
 					  {
-						path: '/pages/mypage/my-info',
+						path: '/pages/activities/index',
+						id:'3',
 						image: 'https://cdn.uviewui.com/uview/swiper/3.jpg',
 						title: '谁念西风独自凉，萧萧黄叶闭疏窗，沉思往事立残阳'
 					   }],
@@ -136,33 +134,24 @@
 					}
 				],	   
 				flowList: [],
-				loadStatus: 'loadmore',	   
-					
+				loadStatus: 'loadmore'
 			}
 		},
 		mounted() {
 			 this.addRandomData();
-			
 		},
-		onShow() {
-			
-		},
-		onReachBottom() {
-			this.loadStatus = 'loading';
-			// 模拟数据加载
-			setTimeout(() => {
-				this.addRandomData();
-				this.loadStatus = 'loadmore';
-			}, 1000);
-		},
+	 
 		onPageScroll(e) {
-				this.scrollTop = e.scrollTop;
+			this.scrollTop = e.scrollTop;
 		},
 		methods: {
 			clickSwiper(_index){
-				let path = this.swiperList[_index].path
+				let listObj = this.swiperList[_index];
+				let path = listObj.path
+				let id = listObj.id
+				let params = path + '?id=' + id
 				uni.navigateTo({
-					url: path
+					url: params
 				})
 			},
 			addRandomData() {
@@ -171,9 +160,16 @@
 					let index = this.$u.random(0,  dataLenth - 1);
 					// 先转成字符串再转成对象，避免数组对象引用导致数据混乱
 					let item = JSON.parse(JSON.stringify(this.waterfallData[index]));
-					item.id = this.$u.guid();
 					this.flowList.push(item);
 				}
+			},
+			selectRecommendDetail(_item){
+				let data =  encodeURIComponent(JSON.stringify(_item))
+				let url = '/pages/recommendDetail/index?data='+data
+				uni.navigateTo({
+					url: url
+				})
+				
 			}
 		}
 	}
@@ -181,76 +177,5 @@
 </script>
 
 <style lang="scss" scoped>
-	.demo-warter {
-		margin: 5px;
-		background-color: #ffffff;
-		padding: 8px;
-	}
-	
-	.water-item-class{
-		background-color: #FFFFFF;
-		margin: 5px;
-		padding: 8px;
-	}
-	
-	.district-class{
-		color: #fc0010;
-	}
-	
-	.constellation-class{
-		margin-left: 10px;
-		color: #9879f8;
-		font-size: 12px;
-	}
-	
-	
-	.u-close {
-		position: absolute;
-		top: 32rpx;
-		right: 32rpx;
-	}
-	
-	.demo-img-wrap {
-	}
-	
-	.demo-image {
-		width: 100%;
-		border-radius: 4px;
-	}
-	
-	.demo-title {
-		font-size: 30rpx;
-		margin-top: 5px;
-		 
-	}
-	
-	.demo-tag {
-		display: flex;
-		margin-top: 5px;
-	}
-	
-	.demo-tag-owner {
-		background-color: $u-type-error;
-		color: #ffffff;
-		display: flex;
-		align-items: center;
-		padding: 4rpx 14rpx;
-		border-radius: 50rpx;
-		font-size: 20rpx;
-		line-height: 1;
-	}
-	
-	.demo-tag-text {
-		border: 1px solid $u-type-primary;
-		color: $u-type-primary;
-		margin-left: 10px;
-		border-radius: 50rpx;
-		line-height: 1;
-		padding: 4rpx 14rpx;
-		display: flex;
-		align-items: center;
-		border-radius: 50rpx;
-		font-size: 20rpx;
-	}
- 
+	@import "home.css"
 </style>

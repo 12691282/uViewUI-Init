@@ -1,0 +1,71 @@
+.demo-warter {
+	margin: 5px;
+	background-color: #ffffff;
+	padding: 8px;
+}
+
+.water-item-class{
+	background-color: #FFFFFF;
+	margin: 5px;
+	padding: 8px;
+}
+
+.district-class{
+	color: #fc0010;
+}
+
+.constellation-class{
+	margin-left: 10px;
+	color: #9879f8;
+	font-size: 12px;
+}
+
+.demo-image {
+	width: 100%;
+	border-radius: 4px;
+}
+
+.demo-title {
+	font-size: 30rpx;
+	margin-top: 5px;
+	 
+}
+
+.demo-tag {
+	display: flex;
+	margin-top: 5px;
+}
+
+.demo-tag-owner {
+	background-color: #fc0012;
+	color: #FFFFFF;
+	display: flex;
+	align-items: center;
+	padding: 4rpx 14rpx;
+	border-radius: 50rpx;
+	font-size: 20rpx;
+	line-height: 1;
+}
+
+.demo-tag-text {
+	border: 1px solid #095cff;
+	color: #0800ff;
+	margin-left: 10px;
+	border-radius: 50rpx;
+	line-height: 1;
+	padding: 4rpx 14rpx;
+	display: flex;
+	align-items: center;
+	border-radius: 50rpx;
+	font-size: 20rpx;
+}
+
+.daily-title-class{
+	background-color: #feacb5;
+	font-size: 15px;
+	color: #FFFFFF;
+	margin-left: 5px;
+	margin-right: 5px;
+	padding: 8px;
+	border-radius: 20rpx 20rpx 0 0;
+}
