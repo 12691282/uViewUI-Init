@@ -1,8 +1,8 @@
 <template>
 	<view class="wrap">
 			<home  v-if="mainStyle == 'home'" ref="homeRef" ></home>
-			<messages  v-if="mainStyle == 'messages'"></messages>
-			<mypage  v-if="mainStyle == 'mypage'"></mypage>
+			<messages  v-if="mainStyle == 'messages'" ref="messagesRef" ></messages>
+			<mypage  v-if="mainStyle == 'mypage'" ref="mypageRef" ></mypage>
 			<u-loadmore v-if="mainStyle == 'home'" bg-color="rgb(240, 240, 240)" :status="loadStatus" @loadmore="testLoad"></u-loadmore>
 			<u-back-top :scroll-top="scrollTop" tips="顶部" duration="200"></u-back-top>
 			<!-- 与包裹页面所有内容的元素u-page同级，且在它的下方 -->
@@ -74,11 +74,30 @@
 						constellation:'天秤座',
 						title: '欲与天公试比高',
 						image: 'https://ss0.bdstatic.com/70cFuHSh_Q1YnxGkpoWK1HF6hhy/it/u=1507700108,1850855924&fm=11&gp=0.jpg'
-					}]
+					}],
+				msglist: [{
+							id: 1,
+							title: '长安回望绣成堆，山顶千门次第开，一骑红尘妃子笑，无人知是荔枝来',
+							images: 'https://cdn.uviewui.com/uview/common/logo.png',
+							show: false
+						},
+						{
+							id: 2,
+							title: '新丰绿树起黄埃，数骑渔阳探使回，霓裳一曲千峰上，舞破中原始下来',
+							images: 'https://cdn.uviewui.com/uview/common/logo.png',
+							show: false
+						},
+						{
+							id: 3,
+							title: '登临送目，正故国晚秋，天气初肃。千里澄江似练，翠峰如簇',
+							images: 'https://cdn.uviewui.com/uview/common/logo.png',
+							show: false,
+						}
+				]
 			}
 		},
 		onPageScroll(e) {
-				this.scrollTop = e.scrollTop;
+			this.scrollTop = e.scrollTop;
 		},
 		onReachBottom() {
 			this.loadStatus = 'loading';
@@ -88,11 +107,30 @@
 				this.loadStatus = 'loadmore';
 			}, 1000);
 		},
+		onShow(){
+			this.checkLoadData()
+		},
 		methods: {
 			
 			async beforeSwitch(index) {
 				this.mainStyle = this.tablist[index].path
 				return true; 
+			},
+			checkLoadData(){
+				uni.setStorage({
+				    key: 'main_list_key',
+				    data: this.initMainList,
+				    success: function () {
+				    }
+				});
+				
+				uni.setStorage({
+				    key: 'messages_list_key',
+				    data: this.msglist,
+				    success: function () {
+				    }
+				});
+				
 			}
 		}
 	}

@@ -215,7 +215,6 @@
 			},
 			deleteLifePhoto(index){
 				  this.photoListLength =  this.$refs.uUpload.lists.length
-				  console.log('deleteLifePhoto')
 			},
 			uploadLifePhoto() {
 				//上传照片list
